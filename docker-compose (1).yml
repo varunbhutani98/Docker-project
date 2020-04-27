@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+        dbos:
+                image: mysql:5.7
+                volumes:
+                        - newsql_strg:/var/lib/lib/mysql
+                restart: always
+                environment:
+                        MYSQL_ROOT_PASSWORD:  rootpass
+                        MYSQL_USER: vimal
+                        MYSQL_PASSWORD: redhat
+                        MYSQL_DATABASE: mydb
+        nextcloudos:
+                image:
+                  nextcloud:latest
+                restart:
+                        always
+                depends_on:
+                        - dbos
+                ports:
+                        - 8083:80
+                environment:
+                        NEXTCLOUD_DB_HOST: dbos
+                        NEXTCLOUD_DB_USER: vimal
+                        NEXTCLOUD_DB_PASSWORD: redhat
+                        NEXTCLOUD_DB_NAME: mydb
+                volumes:
+                        - nextcloud:/var/www/html
+ 
+volumes:
+        newsql_strg:
+        nextcloud:
+
+
