@@ -1,0 +1,39 @@
+version: '3.1'
+
+services:
+        dbos:
+                image: mysql:5.7
+                volumes:
+                        - newsql_strg:/var/lib/lib/mysql
+                restart: always
+                environment:
+                        MYSQL_ROOT_PASSWORD:  rootpass
+                        MYSQL_USER: vimal
+                        MYSQL_PASSWORD: redhat
+                        MYSQL_DATABASE: mydb
+        drupal:
+                image:
+                        drupal:latest
+                restart:
+                        always
+                depends_on:
+                        - dbos
+                ports:
+                        - 8088:80
+                environment:
+                        DRUPAL_DB_HOST: dbos
+                        DRUPAL_DB_USER: vimal
+                        DRUPAL_DB_PASSWORD: redhat
+                        DRUPAL_DB_NAME: mydb
+                volumes:
+                        - nextcloud:/var/www/html/modules
+                        - nextcloud:/var/www/html/profile
+                        - nextcloud:/var/www/html/themes
+                        - nextcloud:/var/www/html/sites
+
+ 
+volumes:
+        newsql_strg:
+        nextcloud:
+
+
